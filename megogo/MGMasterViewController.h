@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface MGMasterViewController : UITableViewController
+{
+    NSMutableArray *_objects;
+}
 
 @end

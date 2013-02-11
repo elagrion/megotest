@@ -19,6 +19,8 @@
 		66AC049416C7298500123A44 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66AC049216C7298500123A44 /* MainStoryboard.storyboard */; };
 		66AC049716C7298500123A44 /* MGMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66AC049616C7298500123A44 /* MGMasterViewController.m */; };
 		66AC049A16C7298500123A44 /* MGDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66AC049916C7298500123A44 /* MGDetailViewController.m */; };
+		66AC04A216C759DC00123A44 /* MGFilmInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 66AC04A116C759DC00123A44 /* MGFilmInfo.m */; };
+		66AC04A516C7648400123A44 /* MGBackend.m in Sources */ = {isa = PBXBuildFile; fileRef = 66AC04A416C7648400123A44 /* MGBackend.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +42,10 @@
 		66AC049616C7298500123A44 /* MGMasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MGMasterViewController.m; sourceTree = "<group>"; };
 		66AC049816C7298500123A44 /* MGDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MGDetailViewController.h; sourceTree = "<group>"; };
 		66AC049916C7298500123A44 /* MGDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MGDetailViewController.m; sourceTree = "<group>"; };
+		66AC04A016C759DC00123A44 /* MGFilmInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGFilmInfo.h; sourceTree = "<group>"; };
+		66AC04A116C759DC00123A44 /* MGFilmInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGFilmInfo.m; sourceTree = "<group>"; };
+		66AC04A316C7648400123A44 /* MGBackend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGBackend.h; sourceTree = "<group>"; };
+		66AC04A416C7648400123A44 /* MGBackend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGBackend.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +99,10 @@
 				66AC049616C7298500123A44 /* MGMasterViewController.m */,
 				66AC049816C7298500123A44 /* MGDetailViewController.h */,
 				66AC049916C7298500123A44 /* MGDetailViewController.m */,
+				66AC04A016C759DC00123A44 /* MGFilmInfo.h */,
+				66AC04A116C759DC00123A44 /* MGFilmInfo.m */,
+				66AC04A316C7648400123A44 /* MGBackend.h */,
+				66AC04A416C7648400123A44 /* MGBackend.m */,
 				66AC048116C7298500123A44 /* Supporting Files */,
 			);
 			path = megogo;
@@ -183,6 +193,8 @@
 				66AC048B16C7298500123A44 /* MGAppDelegate.m in Sources */,
 				66AC049716C7298500123A44 /* MGMasterViewController.m in Sources */,
 				66AC049A16C7298500123A44 /* MGDetailViewController.m in Sources */,
+				66AC04A216C759DC00123A44 /* MGFilmInfo.m in Sources */,
+				66AC04A516C7648400123A44 /* MGBackend.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,20 +7,14 @@
 //
 
 #import "MGMasterViewController.h"
-
 #import "MGDetailViewController.h"
+#import "MGFilmInfo.h"
+#import "MGBackend.h"
 
-@interface MGMasterViewController () {
-    NSMutableArray *_objects;
-}
+@interface MGMasterViewController ()
 @end
 
 @implementation MGMasterViewController
-
-- (void)awakeFromNib
-{
-    [super awakeFromNib];
-}
 
 - (void)viewDidLoad
 {
@@ -40,15 +34,11 @@
 
 - (void)insertNewObject:(id)sender
 {
-    if (!_objects) {
-        _objects = [[NSMutableArray alloc] init];
-    }
-    [_objects insertObject:[NSDate date] atIndex:0];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+	[[MGBackend sharedBackend] getFilmList];
+	[[MGBackend sharedBackend] getFilmInfoForFilmId: 2018];
 }
 
-#pragma mark - Table View
+#pragma mark - Table View Datasource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -64,42 +54,25 @@
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
 
-	NSDate *object = _objects[indexPath.row];
-	cell.textLabel.text = [object description];
+	MGFilmInfo *object = [_objects objectAtIndex: indexPath.row];
+	cell.textLabel.text = object.title;
+	cell.detailTextLabel.text = object.rank;
+	cell.imageView.image = object.poster;
+
+	if (indexPath.row > _objects.count - 5)
+	{
+		NSLog(@"hey, backend, we need new rows, yo!");
+	}
+
     return cell;
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+    return NO;
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [_objects removeObjectAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
-    }
-}
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
+#pragma mark scene
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
