@@ -34,7 +34,7 @@
 
 - (void)insertNewObject:(id)sender
 {
-	[[MGBackend sharedBackend] getFilmList];
+	[[MGBackend sharedBackend] getFilmListWithOffset: 0 limit: 10];
 	[[MGBackend sharedBackend] getFilmInfoForFilmId: 2018];
 }
 
@@ -69,7 +69,7 @@
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return NO;
+	return NO;
 }
 
 #pragma mark scene

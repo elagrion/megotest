@@ -10,6 +10,8 @@
 
 @interface MGFilmInfo : NSObject
 
+- (id) initWithId: (NSString*) aFilmId;
+
 @property (retain) NSString* filmId;
 @property (retain) NSString* title;
 @property (retain) NSString* rank;

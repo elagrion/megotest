@@ -33,9 +33,10 @@
 @end
 
 #import "MGBackend.h"
+#import "MGFilmInfo.h"
 
-const NSUInteger kMGBackendGetCategory = 4;
-const NSUInteger kMGBackendGetGenre = 18;
+const NSUInteger kMGBackendGetCategory = 16;
+const NSUInteger kMGBackendGetGenre = 12;
 static NSString* kMGBackendGetK2 = @"ca757b409b6b7552";
 static NSString* kMGBackendGetK1 = @"_fortest";
 
@@ -63,13 +64,14 @@ static MGBackend* sBackend = nil;
 
 	NSString* categoryStr = [NSString stringWithFormat: @"category=%u", kMGBackendGetCategory];
 	NSString* genreStr = [NSString stringWithFormat: @"genre=%u", kMGBackendGetGenre];
-	NSString* offsetStr = [NSString stringWithFormat: @"offset=%u", offset];
+		//	NSString* sortStr = @"sort=add";
 	NSString* limitStr = [NSString stringWithFormat: @"limit=%u", limit];
+	NSString* offsetStr = [NSString stringWithFormat: @"offset=%u", offset];
 
-	NSString* str = [NSString stringWithFormat:@"%@%@%@%@%@", categoryStr, genreStr, offsetStr, limitStr, kMGBackendGetK2];
-	NSString* sign = [[str MD5String] stringByAppendingString: kMGBackendGetK1];
+	NSString* str = [NSString stringWithFormat:@"%@%@%@%@%@", categoryStr, genreStr, limitStr, offsetStr, kMGBackendGetK2];
+	NSString* sign = [[[str MD5String] stringByAppendingString: kMGBackendGetK1] lowercaseString];
 
-	NSString* cmdStr = [NSString stringWithFormat: @"http://megogo.net/p/videos?%@&%@&%@&%@&sing=%@", categoryStr, genreStr, offsetStr, limitStr, sign];
+	NSString* cmdStr = [NSString stringWithFormat: @"http://megogo.net/p/videos?%@&%@&%@&%@&sign=%@", categoryStr, genreStr, limitStr, offsetStr, sign];
 
 //		NSString* str = [NSString stringWithContentsOfURL:(NSURL *) encoding:(NSStringEncoding) error:(NSError *__autoreleasing *)]
 	NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL: [NSURL URLWithString: cmdStr]];
@@ -93,10 +95,13 @@ static MGBackend* sBackend = nil;
 		if ([object isKindOfClass: [NSDictionary class]])
 		{
 			NSArray* films = [[object objectForKey: @"data"] objectForKey: @"video_list"];
+			NSMutableArray* newFilms = [NSMutableArray arrayWithCapacity: [films count]];
 			for (NSDictionary* film in films)
 			{
-				
+				[newFilms addObject: [[MGFilmInfo alloc] initWithId: [film objectForKey: @"id"]]];
 			}
+
+				//call back to add objects =).
 		}
 	}];
 }
@@ -108,7 +113,7 @@ static MGBackend* sBackend = nil;
 	NSString* str = [NSString stringWithFormat:@"%@%@", videoStr, kMGBackendGetK2];
 	NSString* sign = [[str MD5String] stringByAppendingString: kMGBackendGetK1];
 
-	NSString* cmdStr = [NSString stringWithFormat: @"http://megogo.net/p/video?%@&sing=%@", videoStr, sign];
+	NSString* cmdStr = [NSString stringWithFormat: @"http://megogo.net/p/video?%@&sign=%@", videoStr, sign];
 
 		//		NSString* str = [NSString stringWithContentsOfURL:(NSURL *) encoding:(NSStringEncoding) error:(NSError *__autoreleasing *)]
 	NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL: [NSURL URLWithString: cmdStr]];
