@@ -12,6 +12,7 @@
 #import "MGBackend.h"
 
 @interface MGMasterViewController () <backendProtocol>
+@property (unsafe_unretained) NSUInteger totalFilms;
 @end
 
 @implementation MGMasterViewController
@@ -36,7 +37,19 @@
 
 - (void) loadPictureFroIndexPath: (NSIndexPath*) indexPath
 {
-	
+//	dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
+//	dispatch_async(queue, ^{
+		MGFilmInfo* film = [_objects objectAtIndex: indexPath.row];
+		UIImage* image = [UIImage imageWithData: [NSData dataWithContentsOfURL: [film posterURL]]];
+		film.poster = image;
+	//	[self performSelectorOnMainThread: @selector(refreshImageAtIndexPath:) withObject: indexPath waitUntilDone: NO];
+		dispatch_async(dispatch_get_main_queue(), ^{
+			//[self.tableView reloadRowsAtIndexPaths: @[indexPath] withRowAnimation: UITableViewRowAnimationNone];
+			UITableViewCell *cell = [self.tableView cellForRowAtIndexPath: indexPath];
+			cell.imageView.image = image;
+		});
+
+//	});
 }
 
 #pragma mark - Table View Datasource
@@ -48,7 +61,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	return _objects.count + 1;
+	return self.totalFilms ? MIN(_objects.count + 1, self.totalFilms) : _objects.count + 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -66,7 +79,8 @@
 		}
 		else
 		{
-			[self loadPictureFroIndexPath: indexPath];
+			cell.imageView.image = [UIImage imageNamed: @"PlaceholderPoster"];
+			[self performSelectorInBackground: @selector(loadPictureFroIndexPath:) withObject: indexPath];
 		}
 	}
 	else
@@ -85,9 +99,10 @@
 
 #pragma mark backend
 
-- (void) backend: (MGBackend*) backend didGetFilmsInfo: (NSArray*) films
+- (void) backend: (MGBackend*) backend didGetFilmsInfo: (NSArray*) aFilms totalFilms: (NSUInteger) aTotalFilms
 {
-	[_objects addObjectsFromArray: films];
+	[_objects addObjectsFromArray: aFilms];
+	self.totalFilms = aTotalFilms;
 	[self.tableView reloadData];
 }
 

@@ -29,22 +29,13 @@
 	}
 	return self;
 }
-
-//- (void) setPosterURL: (NSURL*) aPosterURL
-//{
-//	_posterURL = aPosterURL;
-//	dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-//	dispatch_async(queue, ^{
-//		self.poster = [UIImage imageWithData: [NSData dataWithContentsOfURL: aPosterURL]];
-//	});
-//}
-
 - (void) dealloc
 {
     _filmId = nil;
 	_title = nil;
 	_rank = nil;
 	_posterURL = nil;
+	_poster = nil;
 }
 
 - (NSString*)description

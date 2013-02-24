@@ -98,11 +98,14 @@ static MGBackend* sBackend = nil;
 				MGFilmInfo* filmInfo = [[MGFilmInfo alloc] initWithId: [film objectForKey: @"id"]
 																title: [film objectForKey: @"title"]
 																 rank: [film objectForKey: @"rating_kinopoisk"]];
+//				filmInfo.posterURL = [[NSURL alloc] initWithScheme: @"http://" host: @"megogo.net" path: [film objectForKey: @"poster"]];
+				NSString* urla = [NSString stringWithFormat: @"http://megogo.net%@", [film objectForKey: @"poster"]];
+				filmInfo.posterURL = [NSURL URLWithString: urla];
 				[newFilms addObject: filmInfo];
 
 			}
-
-			[self.delegate backend: self didGetFilmsInfo: newFilms];
+			NSUInteger total = [[object objectForKey: @"total_num"] integerValue];
+			[self.delegate backend: self didGetFilmsInfo: newFilms totalFilms: total];
 		}
 	}];
 }

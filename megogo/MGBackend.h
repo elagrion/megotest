@@ -23,5 +23,5 @@
 
 @protocol backendProtocol
 @required
-- (void) backend: (MGBackend*) backend didGetFilmsInfo: (NSArray*) films;
+- (void) backend: (MGBackend*) backend didGetFilmsInfo: (NSArray*) films totalFilms: (NSUInteger) aTotalFilms;
 @end
