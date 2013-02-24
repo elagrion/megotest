@@ -11,7 +11,7 @@
 #import "MGFilmInfo.h"
 #import "MGBackend.h"
 
-@interface MGMasterViewController ()
+@interface MGMasterViewController () <backendProtocol>
 @end
 
 @implementation MGMasterViewController
@@ -24,6 +24,8 @@
 
 	UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
 	self.navigationItem.rightBarButtonItem = addButton;
+	[MGBackend sharedBackend].delegate = self;
+	_objects = [NSMutableArray array];
 }
 
 - (void)didReceiveMemoryWarning
@@ -32,10 +34,9 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)insertNewObject:(id)sender
+- (void) loadPictureFroIndexPath: (NSIndexPath*) indexPath
 {
-	[[MGBackend sharedBackend] getFilmListWithOffset: 0 limit: 10];
-	[[MGBackend sharedBackend] getFilmInfoForFilmId: 2018];
+	
 }
 
 #pragma mark - Table View Datasource
@@ -47,21 +48,31 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	return _objects.count;
+	return _objects.count + 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: @"Cell" forIndexPath:indexPath];
 
-	MGFilmInfo *object = [_objects objectAtIndex: indexPath.row];
-	cell.textLabel.text = object.title;
-	cell.detailTextLabel.text = object.rank;
-	cell.imageView.image = object.poster;
-
-	if (indexPath.row > _objects.count - 5)
+	if (indexPath.row < [_objects count])
 	{
-		NSLog(@"hey, backend, we need new rows, yo!");
+		MGFilmInfo *object = [_objects objectAtIndex: indexPath.row];
+		cell.textLabel.text = object.title;
+		cell.detailTextLabel.text = object.rank;
+		if (object.poster)
+		{
+			cell.imageView.image = object.poster;
+		}
+		else
+		{
+			[self loadPictureFroIndexPath: indexPath];
+		}
+	}
+	else
+	{
+		cell.textLabel.text = @"Loading…";
+		[[MGBackend sharedBackend] getFilmListWithOffset: _objects.count limit: 10];
 	}
 
     return cell;
@@ -70,6 +81,14 @@
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	return NO;
+}
+
+#pragma mark backend
+
+- (void) backend: (MGBackend*) backend didGetFilmsInfo: (NSArray*) films
+{
+	[_objects addObjectsFromArray: films];
+	[self.tableView reloadData];
 }
 
 #pragma mark scene

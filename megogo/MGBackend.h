@@ -8,11 +8,20 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol backendProtocol;
+
 @interface MGBackend : NSObject
 
+@property (nonatomic, weak) id<backendProtocol> delegate;
 + (MGBackend*) sharedBackend;
 - (void) getFilmListWithOffset: (NSUInteger) offset limit: (NSUInteger) limit;
 - (void) getFilmList;
 - (void) getFilmInfoForFilmId: (NSUInteger) filmId;
+- (void) getPictureFroURL: (NSURL*) url;
 
+@end
+
+@protocol backendProtocol
+@required
+- (void) backend: (MGBackend*) backend didGetFilmsInfo: (NSArray*) films;
 @end

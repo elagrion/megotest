@@ -60,11 +60,9 @@ static MGBackend* sBackend = nil;
 
 - (void) getFilmListWithOffset: (NSUInteger) offset limit: (NSUInteger) limit
 {
-		//@"/p/videos?category=<cat_id>[&genre=<genre_id>&session=<session_id>&offset=<offset>&limit=<limit>]&sign=<sign>"
-
+				//TODO: dispatch thread
 	NSString* categoryStr = [NSString stringWithFormat: @"category=%u", kMGBackendGetCategory];
 	NSString* genreStr = [NSString stringWithFormat: @"genre=%u", kMGBackendGetGenre];
-		//	NSString* sortStr = @"sort=add";
 	NSString* limitStr = [NSString stringWithFormat: @"limit=%u", limit];
 	NSString* offsetStr = [NSString stringWithFormat: @"offset=%u", offset];
 
@@ -73,7 +71,6 @@ static MGBackend* sBackend = nil;
 
 	NSString* cmdStr = [NSString stringWithFormat: @"http://megogo.net/p/videos?%@&%@&%@&%@&sign=%@", categoryStr, genreStr, limitStr, offsetStr, sign];
 
-//		NSString* str = [NSString stringWithContentsOfURL:(NSURL *) encoding:(NSStringEncoding) error:(NSError *__autoreleasing *)]
 	NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL: [NSURL URLWithString: cmdStr]];
 	[request setHTTPMethod: @"GET"];
 
@@ -94,14 +91,18 @@ static MGBackend* sBackend = nil;
 		NSLog(@"%@", object);
 		if ([object isKindOfClass: [NSDictionary class]])
 		{
-			NSArray* films = [[object objectForKey: @"data"] objectForKey: @"video_list"];
+			NSArray* films = [object objectForKey: @"video_list"];
 			NSMutableArray* newFilms = [NSMutableArray arrayWithCapacity: [films count]];
 			for (NSDictionary* film in films)
 			{
-				[newFilms addObject: [[MGFilmInfo alloc] initWithId: [film objectForKey: @"id"]]];
+				MGFilmInfo* filmInfo = [[MGFilmInfo alloc] initWithId: [film objectForKey: @"id"]
+																title: [film objectForKey: @"title"]
+																 rank: [film objectForKey: @"rating_kinopoisk"]];
+				[newFilms addObject: filmInfo];
+
 			}
 
-				//call back to add objects =).
+			[self.delegate backend: self didGetFilmsInfo: newFilms];
 		}
 	}];
 }

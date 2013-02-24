@@ -11,10 +11,12 @@
 @interface MGFilmInfo : NSObject
 
 - (id) initWithId: (NSString*) aFilmId;
+- (id) initWithId: (NSString*) aFilmId title: (NSString*) aTitle rank: (NSString*) aRank;
 
 @property (retain) NSString* filmId;
 @property (retain) NSString* title;
 @property (retain) NSString* rank;
+@property (retain, nonatomic) NSURL* posterURL;
 @property (retain) UIImage* poster;
 
 @end
