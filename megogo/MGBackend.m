@@ -40,23 +40,7 @@ const NSUInteger kMGBackendGetGenre = 12;
 static NSString* kMGBackendGetK2 = @"ca757b409b6b7552";
 static NSString* kMGBackendGetK1 = @"_fortest";
 
-static MGBackend* sBackend = nil;
-
 @implementation MGBackend
-
-+ (MGBackend*) sharedBackend
-{
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
-		sBackend = [[MGBackend alloc] init];
-	});
-	return sBackend;
-}
-
-- (void) getFilmList
-{
-	[self getFilmListWithOffset: 50 limit: 100];
-}
 
 - (void) getFilmListWithOffset: (NSUInteger) offset limit: (NSUInteger) limit
 {
@@ -78,17 +62,18 @@ static MGBackend* sBackend = nil;
 		if (error)
 		{
 			NSLog(@"getFilmList request error: %@", error);
+			[self.delegate backend: self failedWithError: error];
 			return;
 		}
 
 		if ([(NSHTTPURLResponse*)response statusCode] != 200)
 		{
 			NSLog(@"can't recive url: %@ with status code: %u", [response URL], [(NSHTTPURLResponse*)response statusCode]);
+			[self.delegate backend: self failedWithError: nil];
 			return;
 		}
 
 		id object = [NSJSONSerialization JSONObjectWithData: data options: 0 error: nil];
-		NSLog(@"%@", object);
 		if ([object isKindOfClass: [NSDictionary class]])
 		{
 			NSArray* films = [object objectForKey: @"video_list"];
@@ -98,11 +83,10 @@ static MGBackend* sBackend = nil;
 				MGFilmInfo* filmInfo = [[MGFilmInfo alloc] initWithId: [film objectForKey: @"id"]
 																title: [film objectForKey: @"title"]
 																 rank: [film objectForKey: @"rating_kinopoisk"]];
-//				filmInfo.posterURL = [[NSURL alloc] initWithScheme: @"http://" host: @"megogo.net" path: [film objectForKey: @"poster"]];
-				NSString* urla = [NSString stringWithFormat: @"http://megogo.net%@", [film objectForKey: @"poster"]];
-				filmInfo.posterURL = [NSURL URLWithString: urla];
+				filmInfo.filmDescription = [film objectForKey: @"description"];
+				NSString* strURL = [NSString stringWithFormat: @"http://megogo.net%@", [film objectForKey: @"poster"]];
+				filmInfo.posterURL = [NSURL URLWithString: strURL];
 				[newFilms addObject: filmInfo];
-
 			}
 			NSUInteger total = [[object objectForKey: @"total_num"] integerValue];
 			[self.delegate backend: self didGetFilmsInfo: newFilms totalFilms: total];
@@ -110,34 +94,37 @@ static MGBackend* sBackend = nil;
 	}];
 }
 
-- (void) getFilmInfoForFilmId: (NSUInteger) filmId
+- (void) getFilmStreamForId: (NSString*) filmId
 {
-	NSString* videoStr = [NSString stringWithFormat: @"video=%u", filmId];
+	///p/info?video=<id>[&season=<season_id>&episode=<episode_id>]&sign=<sign]
+	NSString* videoStr = [NSString stringWithFormat: @"video=%@", filmId];
 
 	NSString* str = [NSString stringWithFormat:@"%@%@", videoStr, kMGBackendGetK2];
-	NSString* sign = [[str MD5String] stringByAppendingString: kMGBackendGetK1];
+	NSString* sign = [[[str MD5String] stringByAppendingString: kMGBackendGetK1] lowercaseString];
 
-	NSString* cmdStr = [NSString stringWithFormat: @"http://megogo.net/p/video?%@&sign=%@", videoStr, sign];
+	NSString* cmdStr = [NSString stringWithFormat: @"http://megogo.net/p/info?%@&sign=%@", videoStr, sign];
 
-		//		NSString* str = [NSString stringWithContentsOfURL:(NSURL *) encoding:(NSStringEncoding) error:(NSError *__autoreleasing *)]
 	NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL: [NSURL URLWithString: cmdStr]];
 	[request setHTTPMethod: @"GET"];
 
 	[NSURLConnection sendAsynchronousRequest: request queue: [NSOperationQueue mainQueue] completionHandler: ^(NSURLResponse *response, NSData *data, NSError *error) {
 		if (error)
 		{
-			NSLog(@"getFilmList request error: %@", error);
+			NSLog(@"getFilmStreamForId request error: %@", error);
+			[self.delegate backend: self failedWithError: error];
 			return;
 		}
 
 		if ([(NSHTTPURLResponse*)response statusCode] != 200)
 		{
 			NSLog(@"can't recive url: %@ with status code: %u", [response URL], [(NSHTTPURLResponse*)response statusCode]);
+			[self.delegate backend: self failedWithError: nil];
 			return;
 		}
 
 		id object = [NSJSONSerialization JSONObjectWithData: data options: 0 error: nil];
-		NSLog(@"%@", object);
+		NSURL* streamURL = [NSURL URLWithString: [object objectForKey: @"src"]];
+		[self.delegate backend: self didGetStreamURL: streamURL];
 	}];
 }
 

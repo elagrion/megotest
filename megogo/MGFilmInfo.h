@@ -15,6 +15,7 @@
 
 @property (retain) NSString* filmId;
 @property (retain) NSString* title;
+@property (retain) NSString* filmDescription;
 @property (retain) NSString* rank;
 @property (retain) NSURL* posterURL;
 @property (retain) UIImage* poster;

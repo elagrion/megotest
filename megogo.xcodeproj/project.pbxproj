@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6641A1F516DBF22C008887AD /* MGDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6641A1F416DBF22C008887AD /* MGDetailViewController.m */; };
 		664DCCDF16DBD55C0004C26B /* PlaceholderPoster.png in Resources */ = {isa = PBXBuildFile; fileRef = 664DCCDE16DBD55C0004C26B /* PlaceholderPoster.png */; };
+		664DCCE116DBE1080004C26B /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 664DCCE016DBE1080004C26B /* MediaPlayer.framework */; };
 		66AC047B16C7298500123A44 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66AC047A16C7298500123A44 /* UIKit.framework */; };
 		66AC047D16C7298500123A44 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66AC047C16C7298500123A44 /* Foundation.framework */; };
 		66AC047F16C7298500123A44 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66AC047E16C7298500123A44 /* CoreGraphics.framework */; };
@@ -19,13 +21,15 @@
 		66AC049116C7298500123A44 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66AC049016C7298500123A44 /* Default-568h@2x.png */; };
 		66AC049416C7298500123A44 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66AC049216C7298500123A44 /* MainStoryboard.storyboard */; };
 		66AC049716C7298500123A44 /* MGMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66AC049616C7298500123A44 /* MGMasterViewController.m */; };
-		66AC049A16C7298500123A44 /* MGDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66AC049916C7298500123A44 /* MGDetailViewController.m */; };
 		66AC04A216C759DC00123A44 /* MGFilmInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 66AC04A116C759DC00123A44 /* MGFilmInfo.m */; };
 		66AC04A516C7648400123A44 /* MGBackend.m in Sources */ = {isa = PBXBuildFile; fileRef = 66AC04A416C7648400123A44 /* MGBackend.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6641A1F316DBF22C008887AD /* MGDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDetailViewController.h; sourceTree = "<group>"; };
+		6641A1F416DBF22C008887AD /* MGDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDetailViewController.m; sourceTree = "<group>"; };
 		664DCCDE16DBD55C0004C26B /* PlaceholderPoster.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PlaceholderPoster.png; sourceTree = "<group>"; };
+		664DCCE016DBE1080004C26B /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		66AC047716C7298500123A44 /* megogo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = megogo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66AC047A16C7298500123A44 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		66AC047C16C7298500123A44 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -42,8 +46,6 @@
 		66AC049316C7298500123A44 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		66AC049516C7298500123A44 /* MGMasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MGMasterViewController.h; sourceTree = "<group>"; };
 		66AC049616C7298500123A44 /* MGMasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MGMasterViewController.m; sourceTree = "<group>"; };
-		66AC049816C7298500123A44 /* MGDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MGDetailViewController.h; sourceTree = "<group>"; };
-		66AC049916C7298500123A44 /* MGDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MGDetailViewController.m; sourceTree = "<group>"; };
 		66AC04A016C759DC00123A44 /* MGFilmInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGFilmInfo.h; sourceTree = "<group>"; };
 		66AC04A116C759DC00123A44 /* MGFilmInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGFilmInfo.m; sourceTree = "<group>"; };
 		66AC04A316C7648400123A44 /* MGBackend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGBackend.h; sourceTree = "<group>"; };
@@ -55,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				664DCCE116DBE1080004C26B /* MediaPlayer.framework in Frameworks */,
 				66AC047B16C7298500123A44 /* UIKit.framework in Frameworks */,
 				66AC047D16C7298500123A44 /* Foundation.framework in Frameworks */,
 				66AC047F16C7298500123A44 /* CoreGraphics.framework in Frameworks */,
@@ -84,6 +87,7 @@
 		66AC047916C7298500123A44 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				664DCCE016DBE1080004C26B /* MediaPlayer.framework */,
 				66AC047A16C7298500123A44 /* UIKit.framework */,
 				66AC047C16C7298500123A44 /* Foundation.framework */,
 				66AC047E16C7298500123A44 /* CoreGraphics.framework */,
@@ -99,8 +103,8 @@
 				66AC049216C7298500123A44 /* MainStoryboard.storyboard */,
 				66AC049516C7298500123A44 /* MGMasterViewController.h */,
 				66AC049616C7298500123A44 /* MGMasterViewController.m */,
-				66AC049816C7298500123A44 /* MGDetailViewController.h */,
-				66AC049916C7298500123A44 /* MGDetailViewController.m */,
+				6641A1F316DBF22C008887AD /* MGDetailViewController.h */,
+				6641A1F416DBF22C008887AD /* MGDetailViewController.m */,
 				66AC04A016C759DC00123A44 /* MGFilmInfo.h */,
 				66AC04A116C759DC00123A44 /* MGFilmInfo.m */,
 				66AC04A316C7648400123A44 /* MGBackend.h */,
@@ -196,9 +200,9 @@
 				66AC048716C7298500123A44 /* main.m in Sources */,
 				66AC048B16C7298500123A44 /* MGAppDelegate.m in Sources */,
 				66AC049716C7298500123A44 /* MGMasterViewController.m in Sources */,
-				66AC049A16C7298500123A44 /* MGDetailViewController.m in Sources */,
 				66AC04A216C759DC00123A44 /* MGFilmInfo.m in Sources */,
 				66AC04A516C7648400123A44 /* MGBackend.m in Sources */,
+				6641A1F516DBF22C008887AD /* MGDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,7 +240,7 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -267,7 +271,7 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -283,10 +287,13 @@
 		66AC049E16C7298500123A44 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "megogo/megogo-Prefix.pch";
 				INFOPLIST_FILE = "megogo/megogo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -294,10 +301,13 @@
 		66AC049F16C7298500123A44 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "megogo/megogo-Prefix.pch";
 				INFOPLIST_FILE = "megogo/megogo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

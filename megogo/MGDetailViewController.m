@@ -7,8 +7,12 @@
 //
 
 #import "MGDetailViewController.h"
+#import "MGFilmInfo.h"
+#import "MGBackend.h"
+#import <MediaPlayer/MediaPlayer.h>
 
-@interface MGDetailViewController ()
+@interface MGDetailViewController () <backendProtocol>
+@property (retain, nonatomic) MGBackend* backend;
 - (void)configureView;
 @end
 
@@ -16,36 +20,61 @@
 
 #pragma mark - Managing the detail item
 
-- (void)setDetailItem:(id)newDetailItem
+- (void)setFilmInfo:(MGFilmInfo*)newFilmInfo
 {
-    if (_detailItem != newDetailItem) {
-        _detailItem = newDetailItem;
-        
-        // Update the view.
+    if (_detailItem != newFilmInfo)
+	{
+        _detailItem = newFilmInfo;
         [self configureView];
     }
 }
 
 - (void)configureView
 {
-    // Update the user interface for the detail item.
-
-	if (self.detailItem) {
-	    self.detailDescriptionLabel.text = [self.detailItem description];
+	if (self.detailItem)
+	{
+	    self.detailDescriptionLabel.text = self.detailItem.filmDescription;
+		self.detailPosterImage.image = self.detailItem.poster;
+		self.navigationItem.title = self.detailItem.title;
 	}
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+	UIBarButtonItem *playButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemPlay target:self action:@selector(playFilm:)];
+	self.navigationItem.rightBarButtonItem = playButton;
 	[self configureView];
 }
 
-- (void)didReceiveMemoryWarning
+- (void) playFilm: (id) sender
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+	[self.backend getFilmStreamForId: self.detailItem.filmId];
+}
+
+- (MGBackend*) backend
+{
+	if (_backend == nil)
+	{
+		_backend = [[MGBackend alloc] init];
+		_backend.delegate = self;
+	}
+	return _backend;
+}
+
+#pragma mark - Backend Delegate
+
+- (void) backend: (MGBackend*) backend didGetStreamURL: (NSURL*) aStreamURL;
+{
+	MPMoviePlayerViewController* player = [[MPMoviePlayerViewController alloc] initWithContentURL: aStreamURL];
+	[self presentMoviePlayerViewControllerAnimated: player];
+}
+
+- (void) backend:(MGBackend *)backend failedWithError: (NSError*) error
+{
+	NSString* message = error ? [error localizedDescription] : @"Coldn't load data, please retry.";
+	UIAlertView* alert = [[UIAlertView alloc] initWithTitle: @"Something went wrong" message: message delegate: nil cancelButtonTitle: @"Damn!" otherButtonTitles: nil];
+	[alert show];
 }
 
 @end

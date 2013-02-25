@@ -7,12 +7,15 @@
 //
 
 #import "MGMasterViewController.h"
-#import "MGDetailViewController.h"
 #import "MGFilmInfo.h"
 #import "MGBackend.h"
+#import "MGDetailViewController.h"
 
 @interface MGMasterViewController () <backendProtocol>
+
 @property (unsafe_unretained) NSUInteger totalFilms;
+@property (retain, nonatomic) MGBackend* backend;
+
 @end
 
 @implementation MGMasterViewController
@@ -21,35 +24,38 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-	self.navigationItem.leftBarButtonItem = self.editButtonItem;
-
-	UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
+	UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemRefresh target:self action:@selector(refreshData:)];
 	self.navigationItem.rightBarButtonItem = addButton;
-	[MGBackend sharedBackend].delegate = self;
+}
+
+- (void) awakeFromNib
+{
+	_backend = [[MGBackend alloc] init];
+	_backend.delegate = self;
 	_objects = [NSMutableArray array];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+}
+
+- (void) refreshData: (id) sender
+{
+	[_objects removeAllObjects];
+	self.totalFilms = 0;
+	[self.tableView reloadData];
 }
 
 - (void) loadPictureFroIndexPath: (NSIndexPath*) indexPath
 {
-//	dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
-//	dispatch_async(queue, ^{
-		MGFilmInfo* film = [_objects objectAtIndex: indexPath.row];
-		UIImage* image = [UIImage imageWithData: [NSData dataWithContentsOfURL: [film posterURL]]];
-		film.poster = image;
-	//	[self performSelectorOnMainThread: @selector(refreshImageAtIndexPath:) withObject: indexPath waitUntilDone: NO];
-		dispatch_async(dispatch_get_main_queue(), ^{
-			//[self.tableView reloadRowsAtIndexPaths: @[indexPath] withRowAnimation: UITableViewRowAnimationNone];
-			UITableViewCell *cell = [self.tableView cellForRowAtIndexPath: indexPath];
-			cell.imageView.image = image;
-		});
-
-//	});
+	MGFilmInfo* film = [_objects objectAtIndex: indexPath.row];
+	UIImage* image = [UIImage imageWithData: [NSData dataWithContentsOfURL: [film posterURL]]];
+	film.poster = image;
+	dispatch_async(dispatch_get_main_queue(), ^{
+		UITableViewCell *cell = [self.tableView cellForRowAtIndexPath: indexPath];
+		cell.imageView.image = image;
+	});
 }
 
 #pragma mark - Table View Datasource
@@ -86,9 +92,8 @@
 	else
 	{
 		cell.textLabel.text = @"Loading…";
-		[[MGBackend sharedBackend] getFilmListWithOffset: _objects.count limit: 10];
+		[self.backend getFilmListWithOffset: _objects.count limit: 10];
 	}
-
     return cell;
 }
 
@@ -97,7 +102,7 @@
 	return NO;
 }
 
-#pragma mark backend
+#pragma mark - Backend Delegate
 
 - (void) backend: (MGBackend*) backend didGetFilmsInfo: (NSArray*) aFilms totalFilms: (NSUInteger) aTotalFilms
 {
@@ -106,13 +111,20 @@
 	[self.tableView reloadData];
 }
 
+- (void) backend:(MGBackend *)backend failedWithError: (NSError*) error
+{
+	NSString* message = error ? [error localizedDescription] : @"Coldn't load data, please retry.";
+	UIAlertView* alert = [[UIAlertView alloc] initWithTitle: @"Something went wrong" message: message delegate: nil cancelButtonTitle: @"Damn!" otherButtonTitles: nil];
+	[alert show];
+}
+
 #pragma mark scene
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSDate *object = _objects[indexPath.row];
+        MGFilmInfo *object = _objects[indexPath.row];
         [[segue destinationViewController] setDetailItem:object];
     }
 }

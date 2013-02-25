@@ -13,15 +13,16 @@
 @interface MGBackend : NSObject
 
 @property (nonatomic, weak) id<backendProtocol> delegate;
-+ (MGBackend*) sharedBackend;
+
 - (void) getFilmListWithOffset: (NSUInteger) offset limit: (NSUInteger) limit;
-- (void) getFilmList;
-- (void) getFilmInfoForFilmId: (NSUInteger) filmId;
-- (void) getPictureFroURL: (NSURL*) url;
+- (void) getFilmStreamForId: (NSString*) filmId;
 
 @end
 
 @protocol backendProtocol
-@required
+@optional
+- (void) backend: (MGBackend*) backend didGetStreamURL: (NSURL*) aStreamURL;
 - (void) backend: (MGBackend*) backend didGetFilmsInfo: (NSArray*) films totalFilms: (NSUInteger) aTotalFilms;
+@required
+- (void) backend: (MGBackend *)backend failedWithError: (NSError*) error;
 @end
