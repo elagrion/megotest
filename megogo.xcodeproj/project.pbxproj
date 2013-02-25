@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		664DCCDF16DBD55C0004C26B /* PlaceholderPoster.png in Resources */ = {isa = PBXBuildFile; fileRef = 664DCCDE16DBD55C0004C26B /* PlaceholderPoster.png */; };
 		66AC047B16C7298500123A44 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66AC047A16C7298500123A44 /* UIKit.framework */; };
 		66AC047D16C7298500123A44 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66AC047C16C7298500123A44 /* Foundation.framework */; };
 		66AC047F16C7298500123A44 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66AC047E16C7298500123A44 /* CoreGraphics.framework */; };
@@ -21,10 +22,10 @@
 		66AC049A16C7298500123A44 /* MGDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66AC049916C7298500123A44 /* MGDetailViewController.m */; };
 		66AC04A216C759DC00123A44 /* MGFilmInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 66AC04A116C759DC00123A44 /* MGFilmInfo.m */; };
 		66AC04A516C7648400123A44 /* MGBackend.m in Sources */ = {isa = PBXBuildFile; fileRef = 66AC04A416C7648400123A44 /* MGBackend.m */; };
-		66E5CC6216DA884A00698A1C /* PlaceholderPoster.png in Resources */ = {isa = PBXBuildFile; fileRef = 66E5CC6116DA884A00698A1C /* PlaceholderPoster.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		664DCCDE16DBD55C0004C26B /* PlaceholderPoster.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PlaceholderPoster.png; sourceTree = "<group>"; };
 		66AC047716C7298500123A44 /* megogo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = megogo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66AC047A16C7298500123A44 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		66AC047C16C7298500123A44 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -47,7 +48,6 @@
 		66AC04A116C759DC00123A44 /* MGFilmInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGFilmInfo.m; sourceTree = "<group>"; };
 		66AC04A316C7648400123A44 /* MGBackend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGBackend.h; sourceTree = "<group>"; };
 		66AC04A416C7648400123A44 /* MGBackend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGBackend.m; sourceTree = "<group>"; };
-		66E5CC6116DA884A00698A1C /* PlaceholderPoster.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = PlaceholderPoster.png; path = ../../../Downloads/PlaceholderPoster.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,7 +113,7 @@
 		66AC048116C7298500123A44 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				66E5CC6116DA884A00698A1C /* PlaceholderPoster.png */,
+				664DCCDE16DBD55C0004C26B /* PlaceholderPoster.png */,
 				66AC048216C7298500123A44 /* megogo-Info.plist */,
 				66AC048316C7298500123A44 /* InfoPlist.strings */,
 				66AC048616C7298500123A44 /* main.m */,
@@ -182,7 +182,7 @@
 				66AC048F16C7298500123A44 /* Default@2x.png in Resources */,
 				66AC049116C7298500123A44 /* Default-568h@2x.png in Resources */,
 				66AC049416C7298500123A44 /* MainStoryboard.storyboard in Resources */,
-				66E5CC6216DA884A00698A1C /* PlaceholderPoster.png in Resources */,
+				664DCCDF16DBD55C0004C26B /* PlaceholderPoster.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
