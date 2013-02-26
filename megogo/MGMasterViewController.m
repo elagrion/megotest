@@ -106,9 +106,11 @@
 
 - (void) backend: (MGBackend*) backend didGetFilmsInfo: (NSArray*) aFilms totalFilms: (NSUInteger) aTotalFilms
 {
-	[_objects addObjectsFromArray: aFilms];
-	self.totalFilms = aTotalFilms;
-	[self.tableView reloadData];
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[_objects addObjectsFromArray: aFilms];
+		self.totalFilms = aTotalFilms;
+		[self.tableView reloadData];
+	});
 }
 
 - (void) backend:(MGBackend *)backend failedWithError: (NSError*) error
@@ -122,10 +124,11 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([[segue identifier] isEqualToString:@"showDetail"]) {
+    if ([[segue identifier] isEqualToString: @"showDetail"])
+	{
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        MGFilmInfo *object = _objects[indexPath.row];
-        [[segue destinationViewController] setDetailItem:object];
+        MGFilmInfo *object = [_objects objectAtIndex: indexPath.row];
+        [[segue destinationViewController] setDetailItem :object];
     }
 }
 

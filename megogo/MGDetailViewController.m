@@ -66,8 +66,10 @@
 
 - (void) backend: (MGBackend*) backend didGetStreamURL: (NSURL*) aStreamURL;
 {
-	MPMoviePlayerViewController* player = [[MPMoviePlayerViewController alloc] initWithContentURL: aStreamURL];
-	[self presentMoviePlayerViewControllerAnimated: player];
+	dispatch_async(dispatch_get_main_queue(), ^{
+		MPMoviePlayerViewController* player = [[MPMoviePlayerViewController alloc] initWithContentURL: aStreamURL];
+		[self presentMoviePlayerViewControllerAnimated: player];
+	});
 }
 
 - (void) backend:(MGBackend *)backend failedWithError: (NSError*) error

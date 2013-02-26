@@ -19,7 +19,7 @@
 
 @end
 
-@protocol backendProtocol
+@protocol backendProtocol <NSObject>
 @optional
 - (void) backend: (MGBackend*) backend didGetStreamURL: (NSURL*) aStreamURL;
 - (void) backend: (MGBackend*) backend didGetFilmsInfo: (NSArray*) films totalFilms: (NSUInteger) aTotalFilms;

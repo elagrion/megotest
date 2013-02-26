@@ -35,6 +35,10 @@
 #import "MGBackend.h"
 #import "MGFilmInfo.h"
 
+@interface MGBackend()
+@property (retain, nonatomic) NSOperationQueue* operationQueue;
+@end
+
 const NSUInteger kMGBackendGetCategory = 16;
 const NSUInteger kMGBackendGetGenre = 12;
 static NSString* kMGBackendGetK2 = @"ca757b409b6b7552";
@@ -42,9 +46,18 @@ static NSString* kMGBackendGetK1 = @"_fortest";
 
 @implementation MGBackend
 
+- (id)init
+{
+    self = [super init];
+    if (self)
+	{
+        _operationQueue = [[NSOperationQueue alloc] init];
+    }
+    return self;
+}
+
 - (void) getFilmListWithOffset: (NSUInteger) offset limit: (NSUInteger) limit
 {
-				//TODO: dispatch thread
 	NSString* categoryStr = [NSString stringWithFormat: @"category=%u", kMGBackendGetCategory];
 	NSString* genreStr = [NSString stringWithFormat: @"genre=%u", kMGBackendGetGenre];
 	NSString* limitStr = [NSString stringWithFormat: @"limit=%u", limit];
@@ -58,7 +71,7 @@ static NSString* kMGBackendGetK1 = @"_fortest";
 	NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL: [NSURL URLWithString: cmdStr]];
 	[request setHTTPMethod: @"GET"];
 
-	[NSURLConnection sendAsynchronousRequest: request queue: [NSOperationQueue mainQueue] completionHandler: ^(NSURLResponse *response, NSData *data, NSError *error) {
+	[NSURLConnection sendAsynchronousRequest: request queue: self.operationQueue completionHandler: ^(NSURLResponse *response, NSData *data, NSError *error) {
 		if (error)
 		{
 			NSLog(@"getFilmList request error: %@", error);
@@ -96,7 +109,6 @@ static NSString* kMGBackendGetK1 = @"_fortest";
 
 - (void) getFilmStreamForId: (NSString*) filmId
 {
-	///p/info?video=<id>[&season=<season_id>&episode=<episode_id>]&sign=<sign]
 	NSString* videoStr = [NSString stringWithFormat: @"video=%@", filmId];
 
 	NSString* str = [NSString stringWithFormat:@"%@%@", videoStr, kMGBackendGetK2];
@@ -107,7 +119,7 @@ static NSString* kMGBackendGetK1 = @"_fortest";
 	NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL: [NSURL URLWithString: cmdStr]];
 	[request setHTTPMethod: @"GET"];
 
-	[NSURLConnection sendAsynchronousRequest: request queue: [NSOperationQueue mainQueue] completionHandler: ^(NSURLResponse *response, NSData *data, NSError *error) {
+	[NSURLConnection sendAsynchronousRequest: request queue: self.operationQueue completionHandler: ^(NSURLResponse *response, NSData *data, NSError *error) {
 		if (error)
 		{
 			NSLog(@"getFilmStreamForId request error: %@", error);
